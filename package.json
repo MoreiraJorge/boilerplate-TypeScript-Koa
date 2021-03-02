@@ -1,0 +1,45 @@
+{
+  "name": "boilerplate-typescript-koa",
+  "version": "1.0.0",
+  "description": "boilerplate for typescript koa typeorm typegraphql postgres",
+  "main": "./dits/app.js",
+  "scripts": {
+    "build": "tsc --build",
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev": "tsc && nodemon ./dist/app.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/MoreiraJorge/boilerplate-TypeScript-Koa.git"
+  },
+  "author": "Jorge Moreira",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/MoreiraJorge/boilerplate-TypeScript-Koa/issues"
+  },
+  "homepage": "https://github.com/MoreiraJorge/boilerplate-TypeScript-Koa#readme",
+  "dependencies": {
+    "dotenv": "^8.2.0",
+    "koa": "^2.13.1",
+    "koa-logger": "^3.2.1",
+    "koa-router": "^10.0.0",
+    "koa2-cors": "^2.0.6",
+    "nodemon": "^2.0.7"
+  },
+  "devDependencies": {
+    "@types/koa": "^2.13.0",
+    "@types/koa-logger": "^3.1.1",
+    "@types/koa-router": "^7.4.1",
+    "@types/koa2-cors": "^2.0.1",
+    "@typescript-eslint/eslint-plugin": "^4.16.1",
+    "@typescript-eslint/parser": "^4.16.1",
+    "eslint": "^7.21.0",
+    "eslint-config-prettier": "^8.1.0",
+    "eslint-config-standard": "^16.0.2",
+    "eslint-plugin-import": "^2.22.1",
+    "eslint-plugin-node": "^11.1.0",
+    "eslint-plugin-promise": "^4.3.1",
+    "prettier": "2.2.1",
+    "typescript": "^4.2.2"
+  }
+}

@@ -3,6 +3,7 @@ import cors from "koa2-cors";
 import logger from "koa-logger";
 import chackStatus from "./routes/checkStatus"
 import "reflect-metadata";
+import { connectionPostgres } from "./dbConnections/postgresConnection";
 import { ApolloServer } from "apollo-server-koa";
 import { buildSchema, Resolver, Query } from "type-graphql";
 
@@ -20,6 +21,14 @@ class HelloResolver {
 }
 
 const main = async () => {
+
+  await connectionPostgres()
+  .then(() => {
+    console.log("Connected to Postgres!");
+  })
+  .catch(err => {
+    console.log(err);
+  })
 
   const schema = await buildSchema({
     resolvers: [HelloResolver]

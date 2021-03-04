@@ -1,40 +1,32 @@
 import Koa from "koa";
 import cors from "koa2-cors";
 import logger from "koa-logger";
-import chackStatus from "./routes/checkStatus"
-import "reflect-metadata";
-import { connectionPostgres } from "./dbConnections/postgresConnection";
+import chackStatus from "./routes/checkStatus";
+import { connectionPostgres } from "./db/dbConnections/postgresConnection";
 import { ApolloServer } from "apollo-server-koa";
-import { buildSchema, Resolver, Query } from "type-graphql";
+import { buildSchema } from "type-graphql";
+import { CheckStatusResolver } from "./db/resolvers/ServerStatus/CheckStatusResolver";
+import { RegisterResolver } from "./db/resolvers/User/RegisterResolver";
 
 require("dotenv").config();
 
 const PORT = process.env.SERVER_PORT || 3001;
 const SERVER_HOST = process.env.LOCAL_HOST;
 
-@Resolver()
-class HelloResolver {
-  @Query(() => String)
-  async hello(){
-    return "Hello World";
-  }
-}
-
 const main = async () => {
-
   await connectionPostgres()
-  .then(() => {
-    console.log("Connected to Postgres!");
-  })
-  .catch(err => {
-    console.log(err);
-  })
+    .then(() => {
+      console.log("Connected to Postgres!");
+    })
+    .catch((err) => {
+      console.log(err);
+    });
 
   const schema = await buildSchema({
-    resolvers: [HelloResolver]
+    resolvers: [CheckStatusResolver, RegisterResolver],
   });
 
-  const apolloServer = new ApolloServer({schema});
+  const apolloServer = new ApolloServer({ schema });
 
   const app = new Koa();
 
@@ -51,11 +43,14 @@ const main = async () => {
 
   app
     .listen(PORT, () => {
-      console.log(`Server running on http://${SERVER_HOST}:${PORT}`);
+      console.log(`Server running on http://${SERVER_HOST}:${PORT}/`);
+      console.log(
+        `Apollo server for typeGraphQl running on http://${SERVER_HOST}:${PORT}/graphql`
+      );
     })
     .on("error", (err) => {
       console.log(err);
     });
-}
+};
 
 main();

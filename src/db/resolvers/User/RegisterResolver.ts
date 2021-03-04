@@ -8,7 +8,7 @@ export class RegisterResolver {
   @Mutation(() => User)
   async register(
     @Arg("firstName") firstName: string,
-    @Arg("lastname") lastName: string,
+    @Arg("lastName") lastName: string,
     @Arg("email") email: string,
     @Arg("password") password: string
   ): Promise<User> {

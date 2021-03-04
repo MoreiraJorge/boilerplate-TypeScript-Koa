@@ -5,6 +5,6 @@ import "reflect-metadata";
 export class CheckStatusResolver {
   @Query(() => String)
   async hello() {
-    return "Hello World";
+    return "Apollo is Alive!";
   }
 }

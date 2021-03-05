@@ -14,6 +14,7 @@ const PORT = process.env.SERVER_PORT || 3001;
 const SERVER_HOST = process.env.LOCAL_HOST;
 
 const main = async () => {
+
   await connectionPostgres()
     .then(() => {
       console.log("Connected to Postgres!");
@@ -23,7 +24,8 @@ const main = async () => {
     });
 
   const schema = await buildSchema({
-    resolvers: [CheckStatusResolver, RegisterResolver],
+    resolvers: [CheckStatusResolver, 
+      RegisterResolver]
   });
 
   const apolloServer = new ApolloServer({ schema });
@@ -43,9 +45,12 @@ const main = async () => {
 
   app
     .listen(PORT, () => {
-      console.log(`Server running on http://${SERVER_HOST}:${PORT}/`);
+      console.log(` 🚀 Server running on http://${SERVER_HOST}:${PORT}/`);
       console.log(
-        `Apollo server for typeGraphQl running on http://${SERVER_HOST}:${PORT}/graphql`
+        `📭 typeGraphQl UI running on http://${SERVER_HOST}:${PORT}/graphql`
+      );
+      console.log(
+        `📭 Apollo Studio UI running at https://studio.apollographql.com/dev`
       );
     })
     .on("error", (err) => {

@@ -1,56 +1,39 @@
 import Koa from "koa";
+import path from "path";
+import "reflect-metadata";
 import cors from "koa2-cors";
 import logger from "koa-logger";
 import chackStatus from "./routes/checkStatus";
 import { connectionPostgres } from "./db/dbConnections/postgresConnection";
 import { ApolloServer } from "apollo-server-koa";
 import { buildSchema } from "type-graphql";
-import { CheckStatusResolver } from "./db/resolvers/ServerStatus/CheckStatusResolver";
-import { RegisterResolver } from "./db/resolvers/User/RegisterResolver";
 
 require("dotenv").config();
 
-const PORT = process.env.SERVER_PORT || 3001;
+const PORT = process.env.SERVER_PORT || 4001;
 const SERVER_HOST = process.env.LOCAL_HOST;
 
 const main = async () => {
-
-  await connectionPostgres()
-    .then(() => {
-      console.log("Connected to Postgres!");
-    })
-    .catch((err) => {
-      console.log(err);
-    });
+  await connectionPostgres();
 
   const schema = await buildSchema({
-    resolvers: [CheckStatusResolver, 
-      RegisterResolver]
+    resolvers: [path.join(__dirname, "/db/resolvers/**/*.ts")],
   });
 
   const apolloServer = new ApolloServer({ schema });
 
   const app = new Koa();
 
+  app.use(cors()).use(logger()).use(chackStatus.routes());
+
   apolloServer.applyMiddleware({ app });
 
   app
-    .use(
-      cors({
-        origin: "*",
-      })
-    )
-    .use(logger())
-    .use(chackStatus.routes());
-
-  app
     .listen(PORT, () => {
-      console.log(` 🚀 Server running on http://${SERVER_HOST}:${PORT}/`);
       console.log(
-        `📭 typeGraphQl UI running on http://${SERVER_HOST}:${PORT}/graphql`
-      );
-      console.log(
-        `📭 Apollo Studio UI running at https://studio.apollographql.com/dev`
+        `🚀 Server running on http://${SERVER_HOST}:${PORT}/ \n` +
+          `📭 typeGraphQl UI running on http://${SERVER_HOST}:${PORT}/graphql \n` +
+          `📭 Apollo Studio UI running at https://studio.apollographql.com/dev`
       );
     })
     .on("error", (err) => {

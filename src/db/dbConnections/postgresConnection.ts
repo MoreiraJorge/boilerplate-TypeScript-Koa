@@ -18,5 +18,11 @@ export const connectionPostgres = async () => {
     synchronize: true,
     logging: true,
     entities: ["src/entities/*.*"],
-  });
+  })
+    .then(() => {
+      console.log("🚀 Connected to Postgres!");
+    })
+    .catch((err) => {
+      console.log(err);
+    });
 };

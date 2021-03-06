@@ -1,7 +1,6 @@
-import { Resolver, Mutation, Arg } from "type-graphql";
 import bcrypt from "bcryptjs";
 import { User } from "../../../entities/User";
-import "reflect-metadata";
+import { Resolver, Mutation, Arg } from "type-graphql";
 
 @Resolver(User)
 export class RegisterResolver {

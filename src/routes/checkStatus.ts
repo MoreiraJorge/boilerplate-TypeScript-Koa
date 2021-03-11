@@ -1,7 +1,7 @@
 import Router from "koa-router";
 const router = new Router();
 
-router.get("/", async (ctx) => {
+router.get("/health", async (ctx) => {
   try {
     ctx.body = "I am Alive!";
   } catch (e) {
